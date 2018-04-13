@@ -36,5 +36,6 @@ Repeat Annotation
 1. De Novo Repeat Identification
 For genome annotation, it is very important to identify repetitive content. Sometimes, we can download existing libraries from Repbase or from other efforts. However,it is also important to identify repeats from de novo assembly using RepeatModeler. 
 
-BuildDatabase -name Boa_constrictor -engine ncbi Boa_constrictor_SGA_7C_scaffolds.fa
-RepeatModeler -pa 8 -engine ncbi Boa_constrictor 2>&1 | tee repeatmodeler.log
+BuildDatabase -name $i -engine ncbi ../${i}_CLC_de_novo_rmhost.fa
+RepeatModeler -engine ncbi -pa 8 -database $i 1>${i}.o2 2>${i}.e2 &
+
