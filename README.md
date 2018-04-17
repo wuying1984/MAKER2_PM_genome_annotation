@@ -17,7 +17,12 @@ U*.fa: The de novo assembled reference genome using CLCbio.
 
 2: EST data:
 Trinigy.fasta from de novo transcriptome assembly using Trinity
-Reads: mycelia RNAseq + haustoria reads (which can be mapped to scaffolds)
+Reads: mycelia RNAseq + haustoria reads (which can be can not mapped to host genome)
+       First,Tophat was used to map RNAseq reads to host genome. Then the unmapped PE reads were obtained using bam2fastq.
+       The unmapped reads were used for transcriptom assembly using Trinity.
+
+
+
 It may make sense to do some post-processing of this assembly.
 
 3: Full protein set
