@@ -16,14 +16,18 @@ Raw data/resources:
 U*.fa: The de novo assembled reference genome using CLCbio. 
 
 2: EST data:
-Trinigy.fasta from de novo transcriptome assembly using Trinity
-Reads: mycelia RNAseq + haustoria reads (which can be can not mapped to host genome)
-       First,Tophat was used to map RNAseq reads to host genome. Then the unmapped PE reads were obtained using bam2fastq.
-       The unmapped reads were used for transcriptom assembly using Trinity.
+Transcriptome.fasta from de novo transcriptome assembly using Trinity
+Reads: mycelia + haustoria RNA-seq reads 
+First, map the RNAseq reads to the host genome (except UMSG1) using Tophat
+Second, the unmapped PE reads were obtained using bam2fastq.
+Third, unmapped reads were mapped to scaffolds using hisat2
+       hisat2 --max-intronlen 2000 -p <NUMBER_OF_CORES> -x <INDEX_FILE> -1 <READ1_FASTQ> -2 <READ2_FASTQ> -S <OUT_SAM>
+       samtools view -bSF4 - | 
+       samtools sort 
+Fourth, do reference guided transcriptome assembly
+       Trinity --genome_guided_bam <BAM_FILE> --genome_guided_max_intron 2000 --max_memory 10G --CPU <NUMBER_OF_CORES> --output <OUTPUT_DIR>  --jaccard_clip
 
-
-
-It may make sense to do some post-processing of this assembly.
+It may make sense to do some post-processing of this assembly. However, I did not.
 
 3: Full protein set
 Complete UniProtKB/Swiss-Prot data set in FASTA format: ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz
