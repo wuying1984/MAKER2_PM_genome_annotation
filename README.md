@@ -1,7 +1,7 @@
 # MAKER2_PM_genome_annotation
 # Using MAKER2 FOR ANNOTATION OF FOUR DICOT PM genomes
 # Reference to  https://gist.github.com/darencard/bb1001ac1532dd4225b030cf0cd61ce2
-               & https://github.com/CompSynBioLab-KoreaUniv/FunGAP#step1
+#             & https://github.com/CompSynBioLab-KoreaUniv/FunGAP#step1
 
 Software & Data
 Software prerequisites:
