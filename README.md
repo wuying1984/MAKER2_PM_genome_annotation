@@ -60,10 +60,8 @@ For genome annotation, it is very important to identify repetitive content. Some
   
   
 #5. Run BUSCO
-run_BUSCO.py -i UCSC1_CLC_de_novo_rmhost_mod.fa -l ~/program/BUSCO/sordariomyceta_odb9 -o UCSC1_BUSCO_so_long -m geno -c 1 --long >UCSC1_BUSCO_so.out&
-run_BUSCO.py -i UMSG1_CLC_de_novo_rmhost_mod.fa -l ~/program/BUSCO/sordariomyceta_odb9 -o UMSG1_BUSCO_so_long -m geno -c 1 --long >UMSG1_BUSCO_so.out&
-run_BUSCO.py -i UMSG2_CLC_de_novo_rmhost_mod.fa -l ~/program/BUSCO/sordariomyceta_odb9 -o UMSG2_BUSCO_so_long -m geno -c 1 --long >UMSG2_BUSCO_so.out&
-run_BUSCO.py -i UMSG3_CLC_de_novo_rmhost_mod.fa -l ~/program/BUSCO/sordariomyceta_odb9 -o UMSG3_BUSCO_so_long -m geno -c 1 --long >UMSG3_BUSCO_so.out&
-
-
+run_BUSCO.py -i UCSC1_CLC_de_novo_rmhost_mod.fa -l ~/program/BUSCO/sordariomyceta_odb9 -o UCSC1_BUSCO_so_long -m geno -c 1 -sp botrytis_cinerea --long >UCSC1_BUSCO_so_long.out&
+run_BUSCO.py -i UMSG1_CLC_de_novo_rmhost_mod.fa -l ~/program/BUSCO/sordariomyceta_odb9 -o UMSG1_BUSCO_so_long -m geno -c 1 -sp botrytis_cinerea --long >UMSG1_BUSCO_so_long.out&
+run_BUSCO.py -i UMSG2_CLC_de_novo_rmhost_mod.fa -l ~/program/BUSCO/sordariomyceta_odb9 -o UMSG2_BUSCO_so_long -m geno -c 1 -sp botrytis_cinerea --long >UMSG2_BUSCO_so_long.out&
+run_BUSCO.py -i UMSG3_CLC_de_novo_rmhost_mod.fa -l ~/program/BUSCO/sordariomyceta_odb9 -o UMSG3_BUSCO_so_long -m geno -c 1 -sp botrytis_cinerea --long >UMSG3_BUSCO_so_long.out&
 
