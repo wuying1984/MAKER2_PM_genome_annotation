@@ -46,41 +46,46 @@ Trinity --seqType fq --left R1-common.fastq.gz --right R2-common.fastq.gz --jacc
 ###### It may make sense to do some post-processing of this assembly. However, I did not. Because powdery mildew transcripts should be quite different from its host.
 
 #### *3: Full protein set*:
-##### Complete UniProtKB/Swiss-Prot data set in FASTA format: > ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz
-Bgh proteins:Blumeria graminis f. sp. hordei DH14 (6495)
-ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/151/065/GCA_000151065.3_ASM15106v3/GCA_000151065.3_ASM15106v3_protein.faa.gz
-Bgt Proteins: Blumeria graminis f. sp. tritici 96224 . (6525)
+##### Complete UniProtKB/Swiss-Prot data set in FASTA format: `ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz`
+##### Bgh proteins:Blumeria graminis f. sp. hordei DH14 (6495)
+`ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/151/065/GCA_000151065.3_ASM15106v3/GCA_000151065.3_ASM15106v3_protein.faa.gz`
+##### Bgt Proteins: Blumeria graminis f. sp. tritici 96224 . (6525)
 ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/418/435/GCA_000418435.1_Bgt_454_newbler_assembly/GCA_000418435.1_Bgt_454_newbler_assembly_protein.faa.gz
-Ene Proteins: Erysiphe necator C strain (6484)
-ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/798/715/GCA_000798715.1_ASM79871v1/GCA_000798715.1_ASM79871v1_protein.faa.gz
-And also Gor CSEP
+##### Ene Proteins: Erysiphe necator C strain (6484)
+`ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/798/715/GCA_000798715.1_ASM79871v1/GCA_000798715.1_ASM79871v1_protein.faa.gz`
+##### And also Gor CSEP
 
-
-#4. Repeat Annotation
-De Novo Repeat Identification
-For genome annotation, it is very important to identify repetitive content. Sometimes, we can download existing libraries from Repbase or from other efforts. However,it is also important to identify repeats from de novo assembly using RepeatModeler. 
+#### *4.Repeat Annotation*:
+##### De Novo Repeat Identification
+###### For genome annotation, it is very important to identify repetitive content. Sometimes, we can download existing libraries from Repbase or from other efforts. However,it is also important to identify repeats from de novo assembly using RepeatModeler. 
+```
   BuildDatabase -name UCSC1 -engine ncbi ../../UCSC1_CLC_de_novo_rmhost_mod.fa
   RepeatModeler -engine ncbi -pa 8 -database UCSC1 1>UCSC1_repeatmodeler.o 2>UCSC1_repeatmodeler.e
+``` 
   
-  
-#5. Run BUSCO
+#### *5. Run BUSCO*:
+```
 run_BUSCO.py -i UCSC1_CLC_de_novo_rmhost_mod.fa -l ~/program/BUSCO/sordariomyceta_odb9 -o UCSC1_BUSCO_so_long -m geno -c 1 -sp botrytis_cinerea  >UCSC1_BUSCO_so_long.out&
 run_BUSCO.py -i UMSG1_CLC_de_novo_rmhost_mod.fa -l ~/program/BUSCO/sordariomyceta_odb9 -o UMSG1_BUSCO_so_long -m geno -c 1 -sp botrytis_cinerea  >UMSG1_BUSCO_so_long.out&
 run_BUSCO.py -i UMSG2_CLC_de_novo_rmhost_mod.fa -l ~/program/BUSCO/sordariomyceta_odb9 -o UMSG2_BUSCO_so_long -m geno -c 1 -sp botrytis_cinerea  >UMSG2_BUSCO_so_long.out&
 run_BUSCO.py -i UMSG3_CLC_de_novo_rmhost_mod.fa -l ~/program/BUSCO/sordariomyceta_odb9 -o UMSG3_BUSCO_so_long -m geno -c 1 -sp botrytis_cinerea  >UMSG3_BUSCO_so_long.out&
-add --long option to generate the augustus traing models.However, if --long option is used, the genome completeness will goes down from 84% to 80%. I do not know why.
+```
+##### I added --long option to generate the augustus training models.
+##### However, if --long option is used, the genome completeness will goes down from 84% to 85%. I do not know why.
+##### But if I used trained models to perform estimation, the estimated completeness went back to 84%-85% again.
 
-#6. Do three iterative round of Maker
-First_round:
-maker_opts.ctl files:
+#### *6. Do three iterative round of Maker*
+#### First_round:
+#### maker_opts.ctl files:
+```
 est=Trinity.fasta
 protein=unipro_sport_add4genome.fasta
-rmlib=repeat.consensi.fa
+rmlib=repeat.consensi.fa #############very important
 repeat_protein=repeat.consensi.fa
 softmask=1
-snaphmm=snap.hmm training from CEGMA gff file
-gmhmm=gmhmm.mod training from genome sequence
-augustus=species model derived from BUSCO analysis (using --long option)
+snaphmm=snap.hmm ##########training from CEGMA gff file
+gmhmm=gmhmm.mod ###########training from genome sequence
+augustus=species ##########model derived from BUSCO analysis (using --long option)
 est2genome=1
 protein2genome=1
 max_dna_len=100000
@@ -88,32 +93,33 @@ min_contig=500
 AED_threshold=1
 min_protein=30
 always_complete=1
-split_hit=3000 #intron size limitation
-single_exon=1 #turn it on
-single_length=250 #single exon length 
+split_hit=3000 #######intron size limitation
+single_exon=1 ########turn it on for fungi genome annotation
+single_length=250 ####single exon length 
 correct_est_fusion=0 #Did not turn one in the first round (refer to https://groups.google.com/forum/#!topic/maker-devel/J_ZLTFQ3xN4)
+```
 
-Second round:
-retraining snap and augustus
-1)SNAP
-gff3_merge -d *index.log
-# export 'confident' gene models from MAKER and rename to something meaningful
-maker2zff -d ../../Bcon_rnd1.maker.output/Bcon_rnd1_master_datastore_index.log
-# gather some stats and validate
-fathom genome.ann genome.dna -gene-stats > gene-stats.log 2>&1
-fathom genome.ann genome.dna  -validate > validate.log 2>&1
-# collect the training sequences and annotations, plus 1000 surrounding bp for training
-fathom genome.ann genome.dna -categorize 1000 > categorize.log 2>&1
-fathom uni.ann uni.dna -export 1000 -plus > uni-plus.log 2>&1
-# create the training parameters
-mkdir params
+#### Second round:
+#### retraining snap and augustus
+#### 1)SNAP
+`gff3_merge -d *index.log`
+##### export 'confident' gene models from MAKER and rename to something meaningful
+`maker2zff -d ../../Bcon_rnd1.maker.output/Bcon_rnd1_master_datastore_index.log`
+##### gather some stats and validate
+`fathom genome.ann genome.dna -gene-stats > gene-stats.log 2>&1
+fathom genome.ann genome.dna  -validate > validate.log 2>&1`
+##### collect the training sequences and annotations, plus 1000 surrounding bp for training
+`fathom genome.ann genome.dna -categorize 1000 > categorize.log 2>&1
+fathom uni.ann uni.dna -export 1000 -plus > uni-plus.log 2>&1`
+##### create the training parameters
+```mkdir params
 cd params
 forge ../export.ann ../export.dna > ../forge.log 2>&1
 cd ..
-# assembly the HMM
 hmm-assembler.pl Bcon_rnd1.zff.length50_aed0.25 params > Bcon_rnd1.zff.length50_aed0.25.hmm
-
-maker_opts.ctl files:
+```
+##### assembly the HMM
+#### 2)maker_opts.ctl files:
 est=Trinity.fasta 
 protein=unipro_sport_add4genome.fasta
 rmlib=repeat.consensi.fa
