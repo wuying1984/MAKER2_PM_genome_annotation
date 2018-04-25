@@ -13,8 +13,8 @@
 ###### BEDtools version 2.24.0
 
 ### Raw data/resources:
-##### 1: Genome scaffolds:
-##### _Genome.fa: The de novo assembled reference genome using CLCbio. 
+##### **1: Genome scaffolds:**
+##### -Genome.fa: The de novo assembled reference genome using CLCbio. 
 ```
           Ambiguous trim = Yes
           Ambiguous limit = 2
