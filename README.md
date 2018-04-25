@@ -1,10 +1,10 @@
 # MAKER2_PM_genome_annotation
-# Using MAKER2 FOR ANNOTATION OF FOUR DICOT PM genomes
-# Reference to  https://gist.github.com/darencard/bb1001ac1532dd4225b030cf0cd61ce2
-#             & https://github.com/CompSynBioLab-KoreaUniv/FunGAP#step1
+## Using MAKER2 FOR ANNOTATION OF FOUR DICOT PM genomes
+### Reference to  https://gist.github.com/darencard/bb1001ac1532dd4225b030cf0cd61ce2
+###             & https://github.com/CompSynBioLab-KoreaUniv/FunGAP#step1
 
-#Software & Data
-#Software prerequisites:
+### Software & Data
+### Software prerequisites:
 RepeatModeler(1.0.4) and RepeatMasker (4.0.5) with all dependencies (I used NCBI BLAST) and RepBase (version used was 20150807).
 MAKER version 2.31.9 (though any other version 2 releases should be okay).
 Augustus version 3.3.
