@@ -13,7 +13,7 @@
 ###### BEDtools version 2.24.0
 
 ### Raw data/resources:
-#### 1: Genome scaffolds:
+#### *1: Genome scaffolds*:
 ##### >Genome.fa: The de novo assembled reference genome using CLCbio. 
 ```
           Ambiguous trim = Yes
@@ -34,19 +34,19 @@
           Save broken pairs = No
 ```
 
-##### *2: EST data*:
-##### _ Transcriptome.fasta from de novo transcriptome assembly using Trinity
-##### _ Reads: mycelia + haustoria RNA-seq reads 
-##### _ *First*, map the haustoria RNAseq reads to the contig using Tophat
-##### _ *Secondly*, do transcriptome assembly
+#### *2: EST data*:
+##### Transcriptome.fasta from de novo transcriptome assembly using Trinity
+##### Reads: mycelia + haustoria RNA-seq reads 
+##### *First*, map the haustoria RNAseq reads to the contig using Tophat
+##### *Secondly*, do transcriptome assembly
 ```
 Trinity --seqType fq --left R1-common.fastq.gz --right R2-common.fastq.gz --jaccard_clip --max_memory 100G --CPU 24 --output trinity_out
 ```
-######    Use --jaccard_clip for Trinity because high gene density leads to UTR overlap in the assembly. This option helps avoid fusion of neighbor transcripts. 
-######    It may make sense to do some post-processing of this assembly. However, I did not. Because powdery mildew transcripts should be quite different from its host.
+###### Use --jaccard_clip for Trinity because high gene density leads to UTR overlap in the assembly. This option helps avoid fusion of neighbor transcripts. 
+###### It may make sense to do some post-processing of this assembly. However, I did not. Because powdery mildew transcripts should be quite different from its host.
 
-#3: Full protein set
-Complete UniProtKB/Swiss-Prot data set in FASTA format: ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz
+#### *3: Full protein set*:
+##### Complete UniProtKB/Swiss-Prot data set in FASTA format: > ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz
 Bgh proteins:Blumeria graminis f. sp. hordei DH14 (6495)
 ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/151/065/GCA_000151065.3_ASM15106v3/GCA_000151065.3_ASM15106v3_protein.faa.gz
 Bgt Proteins: Blumeria graminis f. sp. tritici 96224 . (6525)
