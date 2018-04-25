@@ -68,8 +68,94 @@ run_BUSCO.py -i UMSG3_CLC_de_novo_rmhost_mod.fa -l ~/program/BUSCO/sordariomycet
 add --long option to generate the augustus traing models.However, if --long option is used, the genome completeness will goes down from 84% to 80%. I do not know why.
 
 #6. Do three iterative round of Maker
+First_round:
 maker_opts.ctl files:
 est=Trinity.fasta
+protein=unipro_sport_add4genome.fasta
+rmlib=repeat.consensi.fa
+repeat_protein=repeat.consensi.fa
+softmask=1
+snaphmm=snap.hmm training from CEGMA gff file
+gmhmm=gmhmm.mod training from genome sequence
+augustus=species model derived from BUSCO analysis (using --long option)
+est2genome=1
+protein2genome=1
+max_dna_len=100000
+min_contig=500
+AED_threshold=1
+min_protein=30
+always_complete=1
+split_hit=3000 #intron size limitation
+single_exon=1 #turn it on
+single_length=250 #single exon length 
+correct_est_fusion=0 #Did not turn one in the first round (refer to https://groups.google.com/forum/#!topic/maker-devel/J_ZLTFQ3xN4)
+
+Second round:
+retraining snap and augustus
+1)SNAP
+gff3_merge -d *index.log
+# export 'confident' gene models from MAKER and rename to something meaningful
+maker2zff -d ../../Bcon_rnd1.maker.output/Bcon_rnd1_master_datastore_index.log
+# gather some stats and validate
+fathom genome.ann genome.dna -gene-stats > gene-stats.log 2>&1
+fathom genome.ann genome.dna  -validate > validate.log 2>&1
+# collect the training sequences and annotations, plus 1000 surrounding bp for training
+fathom genome.ann genome.dna -categorize 1000 > categorize.log 2>&1
+fathom uni.ann uni.dna -export 1000 -plus > uni-plus.log 2>&1
+# create the training parameters
+mkdir params
+cd params
+forge ../export.ann ../export.dna > ../forge.log 2>&1
+cd ..
+# assembly the HMM
+hmm-assembler.pl Bcon_rnd1.zff.length50_aed0.25 params > Bcon_rnd1.zff.length50_aed0.25.hmm
+
+maker_opts.ctl files:
+est=Trinity.fasta 
+protein=unipro_sport_add4genome.fasta
+rmlib=repeat.consensi.fa
+repeat_protein=repeat.consensi.fa
+softmask=1
+snaphmm=snap.hmm training from gff file obtained from first round annotation
+gmhmm=gmhmm.mod training from genome sequence
+augustus=species training from gff file obtained from first round annotation 
+est2genome=0
+protein2genome=0
+max_dna_len=100000
+min_contig=500
+AED_threshold=1
+min_protein=30
+always_complete=1
+split_hit=3000
+single_exon=1
+single_length=250
+correct_est_fusion=0
+
+
+
+
+
+
+Third round:
+maker_opts.ctl files:
+est=Trinity.fasta
+protein=unipro_sport_add4genome.fasta
+rmlib=repeat.consensi.fa
+repeat_protein=repeat.consensi.fa
+softmask=1
+snaphmm=snap.hmm training from gff file obtained from first round annotation
+gmhmm=gmhmm.mod training from genome sequence
+augustus=species training from gff file obtained from first round annotation 
+est2genome=0
+protein2genome=0
+max_dna_len=100000
+min_contig=500
+AED_threshold=1
+min_protein=30
+always_complete=1
+split_hit=5000
+correct_est_fusion=1
+
 
 
 
