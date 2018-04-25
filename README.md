@@ -5,16 +5,16 @@
 
 ### Software & Data
 ### Software prerequisites:
-RepeatModeler(1.0.4) and RepeatMasker (4.0.5) with all dependencies (I used NCBI BLAST) and RepBase (version used was 20150807).
-MAKER version 2.31.9 (though any other version 2 releases should be okay).
-Augustus version 3.3.
-BUSCO version 3.
-SNAP https://github.com/KorfLab/SNAP
-BEDtools version 2.24.0
+###### RepeatModeler(1.0.4) and RepeatMasker (4.0.5) with all dependencies (I used NCBI BLAST) and RepBase (version used was 20150807).
+###### MAKER version 2.31.9 (though any other version 2 releases should be okay).
+###### Augustus version 3.3.
+###### BUSCO version 3.
+###### SNAP https://github.com/KorfLab/SNAP
+###### BEDtools version 2.24.0
 
-#Raw data/resources:
-#1: Genome scaffolds:
-U*.fa: The de novo assembled reference genome using CLCbio. 
+### Raw data/resources:
+##### 1: Genome scaffolds:
+##### U*.fa: The de novo assembled reference genome using CLCbio. 
           Ambiguous trim = Yes
           Ambiguous limit = 2
           Quality trim = Yes
