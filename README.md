@@ -13,8 +13,8 @@
 ###### BEDtools version 2.24.0
 
 ### Raw data/resources:
-##### **1: Genome scaffolds:**
-##### -Genome.fa: The de novo assembled reference genome using CLCbio. 
+#### **1: Genome scaffolds:**
+##### - Genome.fa: The de novo assembled reference genome using CLCbio. 
 ```
           Ambiguous trim = Yes
           Ambiguous limit = 2
@@ -35,10 +35,10 @@
 ```
 
 ##### *2: EST data*:
-##### _Transcriptome.fasta from de novo transcriptome assembly using Trinity
-##### _Reads: mycelia + haustoria RNA-seq reads 
-##### _*First*, map the haustoria RNAseq reads to the contig using Tophat
-##### _*Secondly*, do transcriptome assembly
+##### _ Transcriptome.fasta from de novo transcriptome assembly using Trinity
+##### _ Reads: mycelia + haustoria RNA-seq reads 
+##### _ *First*, map the haustoria RNAseq reads to the contig using Tophat
+##### _ *Secondly*, do transcriptome assembly
 ```
 Trinity --seqType fq --left R1-common.fastq.gz --right R2-common.fastq.gz --jaccard_clip --max_memory 100G --CPU 24 --output trinity_out
 ```
