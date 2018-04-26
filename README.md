@@ -75,7 +75,7 @@ run_BUSCO.py -i UMSG3_CLC_de_novo_rmhost_mod.fa -l ~/program/BUSCO/sordariomycet
 ##### But if I used trained models to perform estimation, the estimated completeness went back to 84%-85% again.
 
 #### *6. Do three iterative round of Maker*
-#### First_round:
+#### *First_round*:
 #### maker_opts.ctl files:
 ```
 est=Trinity.fasta
@@ -99,7 +99,7 @@ single_length=250 ####single exon length
 correct_est_fusion=0 #Did not turn one in the first round (refer to https://groups.google.com/forum/#!topic/maker-devel/J_ZLTFQ3xN4)
 ```
 
-#### Second round:
+#### *Second round*:
 #### retraining snap and augustus
 #### 1)SNAP
 `gff3_merge -d *index.log`
@@ -112,60 +112,58 @@ fathom genome.ann genome.dna  -validate > validate.log 2>&1`
 `fathom genome.ann genome.dna -categorize 1000 > categorize.log 2>&1
 fathom uni.ann uni.dna -export 1000 -plus > uni-plus.log 2>&1`
 ##### create the training parameters
-```mkdir params
+```
+mkdir params
 cd params
 forge ../export.ann ../export.dna > ../forge.log 2>&1
 cd ..
 hmm-assembler.pl Bcon_rnd1.zff.length50_aed0.25 params > Bcon_rnd1.zff.length50_aed0.25.hmm
 ```
-##### assembly the HMM
+
 #### 2)maker_opts.ctl files:
-est=Trinity.fasta 
-protein=unipro_sport_add4genome.fasta
-rmlib=repeat.consensi.fa
-repeat_protein=repeat.consensi.fa
-softmask=1
-snaphmm=snap.hmm training from gff file obtained from first round annotation
-gmhmm=gmhmm.mod training from genome sequence
-augustus=species training from gff file obtained from first round annotation 
-est2genome=0
-protein2genome=0
-max_dna_len=100000
-min_contig=500
-AED_threshold=1
-min_protein=30
-always_complete=1
-split_hit=3000
-single_exon=1
-single_length=250
-correct_est_fusion=0
-
-
-
-
-
-
-Third round:
-maker_opts.ctl files:
+```
 est=Trinity.fasta
 protein=unipro_sport_add4genome.fasta
-rmlib=repeat.consensi.fa
+rmlib=repeat.consensi.fa #############very important
 repeat_protein=repeat.consensi.fa
 softmask=1
-snaphmm=snap.hmm training from gff file obtained from first round annotation
-gmhmm=gmhmm.mod training from genome sequence
-augustus=species training from gff file obtained from first round annotation 
-est2genome=0
-protein2genome=0
+snaphmm=snap.hmm ##########training from CEGMA gff file
+gmhmm=gmhmm.mod ###########training from genome sequence
+augustus=species ##########model derived from BUSCO analysis (using --long option)
+est2genome=0 ##############set to 0 from second round
+protein2genome=0 ##############set to 0 from second round
 max_dna_len=100000
 min_contig=500
 AED_threshold=1
 min_protein=30
 always_complete=1
-split_hit=5000
-correct_est_fusion=1
-
-
+split_hit=5000 #######intron size limitation
+single_exon=1 ########turn it on for fungi genome annotation
+single_length=250 ####single exon length 
+correct_est_fusion=1 #turn it on from the second round
+```
+#### *Third round*:
+```
+est=Trinity.fasta
+protein=unipro_sport_add4genome.fasta
+rmlib=repeat.consensi.fa #############very important
+repeat_protein=repeat.consensi.fa
+softmask=1
+snaphmm=snap.hmm ##########training from CEGMA gff file
+gmhmm=gmhmm.mod ###########training from genome sequence
+augustus=species ##########model derived from BUSCO analysis (using --long option)
+est2genome=0 ##############set to 0 from second round
+protein2genome=0 ##############set to 0 from second round
+max_dna_len=100000
+min_contig=500
+AED_threshold=1
+min_protein=30
+always_complete=1
+split_hit=5000 #######intron size limitation
+single_exon=1 ########turn it on for fungi genome annotation
+single_length=250 ####single exon length 
+correct_est_fusion=1 #turn it on from the second round
+```
 
 
 
