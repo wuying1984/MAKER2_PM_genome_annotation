@@ -139,9 +139,12 @@ min_protein=30
 always_complete=1
 split_hit=5000 #######intron size limitation
 single_exon=1 ########turn it on for fungi genome annotation
-single_length=250 ####single exon length 
+single_length=200 ####single exon length 
 correct_est_fusion=1 #turn it on from the second round
 ```
+
+###### https://groups.google.com/forum/#!topic/maker-devel/OqQVWMM9gZY
+
 #### *Third round*:
 ```
 est=Trinity.fasta
