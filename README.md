@@ -168,6 +168,8 @@ single_length=250 ####single exon length
 correct_est_fusion=1 #turn it on from the second round
 ```
 
+https://groups.google.com/forum/#!topic/maker-devel/OqQVWMM9gZY
+
 ### check the gene number from first round to fifth round to see if there are any big differences.
 
 ### check the proteins annotated from the first round and pick up the ones with signalp without transmemberane domain for training effector specific hmm of augustus and SNAP
