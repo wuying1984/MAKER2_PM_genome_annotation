@@ -127,7 +127,7 @@ protein=unipro_sport_add4genome.fasta
 rmlib=repeat.consensi.fa #############very important
 repeat_protein=repeat.consensi.fa
 softmask=1
-snaphmm=snap.hmm ##########training from CEGMA gff file
+snaphmm=snap.hmm ##########training from previous proteins
 gmhmm=gmhmm.mod ###########training from genome sequence
 augustus=species ##########model derived from BUSCO analysis (using --long option)
 est2genome=0 ##############set to 0 from second round
@@ -137,7 +137,7 @@ min_contig=500
 AED_threshold=1
 min_protein=30
 always_complete=1
-split_hit=5000 #######intron size limitation
+split_hit=3000 #######intron size limitation
 single_exon=1 ########turn it on for fungi genome annotation
 single_length=200 ####single exon length 
 correct_est_fusion=1 #turn it on from the second round
@@ -152,7 +152,7 @@ protein=unipro_sport_add4genome.fasta
 rmlib=repeat.consensi.fa #############very important
 repeat_protein=repeat.consensi.fa
 softmask=1
-snaphmm=snap.hmm ##########training from CEGMA gff file
+snaphmm=snap.hmm ##########training from previous proteins
 gmhmm=gmhmm.mod ###########training from genome sequence
 augustus=species ##########model derived from BUSCO analysis (using --long option)
 est2genome=0 ##############set to 0 from second round
@@ -162,18 +162,77 @@ min_contig=500
 AED_threshold=1
 min_protein=30
 always_complete=1
-split_hit=5000 #######intron size limitation
+split_hit=3000 #######intron size limitation
 single_exon=1 ########turn it on for fungi genome annotation
-single_length=250 ####single exon length 
+single_length=200 ####single exon length 
+correct_est_fusion=1 #turn it on from the second round
+```
+
+https://groups.google.com/forum/#!topic/maker-devel/OqQVWMM9gZY
+
+
+### I did two more rounds of prediction using secret proteins for model building
+#### check the proteins annotated from the first round and pick up the ones with signalp without transmemberane domain for training effector specific hmm of augustus and SNAP
+https://github.com/hyphaltip/genome-scripts/blob/master/gene_prediction/zff2augustus_gbk.pl
+
+#### *Fourth round*:
+Add sp sepecific model for training SNAP and Augustus(training on WEBAUGUSTUS)
+```
+est=Trinity.fasta
+protein=unipro_sport_add4genome.fasta
+rmlib=repeat.consensi.fa #############very important
+repeat_protein=repeat.consensi.fa
+softmask=1
+snaphmm=snap.hmm:ori_hmm, sanp_sp.hmm:sp_hmm ##########training from previous protein or sp
+gmhmm=gmhmm.mod ###########training from genome sequence
+augustus=species:ori_augustus,species_sp:sp_augustus ##########model derived from BUSCO analysis (using --long option) or WEBAUGUSTUS
+est2genome=0 ##############set to 0 from second round
+protein2genome=0 ##############set to 0 from second round
+max_dna_len=100000
+min_contig=500
+AED_threshold=1
+min_protein=30
+always_complete=1
+split_hit=3000 #######intron size limitation
+single_exon=1 ########turn it on for fungi genome annotation
+single_length=150 ####single exon length 
+correct_est_fusion=1 #turn it on from the second round
+```
+
+https://groups.google.com/forum/#!topic/maker-devel/OqQVWMM9gZY
+
+
+#### *Fifth round*:
+Add sp sepecific model for training SNAP and Augustus(training on WEBAUGUSTUS)
+```
+est=Trinity.fasta
+protein=unipro_sport_add4genome.fasta
+rmlib=repeat.consensi.fa #############very important
+repeat_protein=repeat.consensi.fa
+softmask=1
+snaphmm=snap.hmm:ori_hmm, sanp_sp.hmm:sp_hmm ##########training from previous protein or sp
+gmhmm=gmhmm.mod ###########training from genome sequence
+augustus=species:ori_augustus,species_sp:sp_augustus ##########model derived from BUSCO analysis (using --long option) or WEBAUGUSTUS
+est2genome=0 ##############set to 0 from second round
+protein2genome=0 ##############set to 0 from second round
+max_dna_len=100000
+min_contig=500
+AED_threshold=1
+min_protein=30
+always_complete=1
+split_hit=3000 #######intron size limitation
+single_exon=1 ########turn it on for fungi genome annotation
+single_length=150 ####single exon length 
 correct_est_fusion=1 #turn it on from the second round
 ```
 
 https://groups.google.com/forum/#!topic/maker-devel/OqQVWMM9gZY
 
 ### check the gene number from first round to fifth round to see if there are any big differences.
+#### 1. number of genes
+#### 2. BUSCO estimation for transcripts and proteins
+#### 3. SP protein numbers
 
-### check the proteins annotated from the first round and pick up the ones with signalp without transmemberane domain for training effector specific hmm of augustus and SNAP
-https://github.com/hyphaltip/genome-scripts/blob/master/gene_prediction/zff2augustus_gbk.pl
 
 
 
